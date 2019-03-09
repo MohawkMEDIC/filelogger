@@ -16,25 +16,41 @@ public static async Task Main(string[] args)
     
 private static IWebHostBuilder CreateWebHostBuilder(string[] args)
 {
-  var builder = WebHost.CreateDefaultBuilder(args)
-  .UseStartup<Startup>()
-  .ConfigureAppConfiguration(config =>
-  {
-    config.SetBasePath(workingDirectory);
-    config.AddXmlFile($"{workingDirectory}\\app.config", false, true);
-  });
+    var configurationBuilder = new ConfigurationBuilder();
 
-  return builder;
+    configurationBuilder.SetBasePath(workingDirectory);
+    configurationBuilder.AddXmlFile($"{workingDirectory}\\app.config", false, true);
+
+    var configuration = configurationBuilder.Build();
+
+    var builder = WebHost.CreateDefaultBuilder(args)
+      .UseConfiguration(configuration)
+      .UseStartup<Startup>();
+
+    return builder;
 }
 ```
 
 ## Add this to your Startup.cs file
 ```C#
-public Startup(IHostingEnvironment hostingEnvironment, ILogger<Startup> logger)
+public Startup(IHostingEnvironment hostingEnvironment, IConfiguration configuration, ILogger<Startup> logger)
 {
-  var workingDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-  Directory.SetCurrentDirectory(workingDirectory);
-  this.configuration = new ConfigurationBuilder().SetBasePath(workingDirectory).AddXmlFile($"{workingDirectory}\\app.config", false, true).Build();
+    this.configuration = configuration;
+}
+
+		public void ConfigureServices(IServiceCollection services)
+		{
+			services.AddLogging(logging =>
+			{
+				logging.ClearProviders();
+				logging.SetMinimumLevel(Enum.Parse<LogLevel>(this.configuration.GetValue<string>("logging:minimumLevel")));
+
+				logging.AddFile(options =>
+				{
+					options.FileLogSwitches = this.configuration.GetSection("logging:switches:switch").GetChildren().Select(c => new FileLogSwitch(c.Key, Enum.Parse<LogLevel>(c.Value)));
+					options.FilePath = this.configuration.GetValue<string>("logging:path");
+				});
+			});
 }
 ```
 
