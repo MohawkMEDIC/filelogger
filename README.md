@@ -38,20 +38,21 @@ public Startup(IHostingEnvironment hostingEnvironment, IConfiguration configurat
     this.configuration = configuration;
 }
 
-		public void ConfigureServices(IServiceCollection services)
-		{
-			services.AddLogging(logging =>
-			{
-				logging.ClearProviders();
-				logging.SetMinimumLevel(Enum.Parse<LogLevel>(this.configuration.GetValue<string>("logging:minimumLevel")));
+public void ConfigureServices(IServiceCollection services)
+{
+	services.AddLogging(logging =>
+	{
+		logging.ClearProviders();
+		logging.SetMinimumLevel(Enum.Parse<LogLevel>(this.configuration.GetValue<string>("logging:minimumLevel")));
 
-				logging.AddFile(options =>
-				{
-					options.FileLogSwitches = this.configuration.GetSection("logging:switches:switch").GetChildren().Select(c => new FileLogSwitch(c.Key, Enum.Parse<LogLevel>(c.Value)));
-					options.FilePath = this.configuration.GetValue<string>("logging:path");
-				});
-			});
+		logging.AddFile(options =>
+		{
+			options.FileLogSwitches = this.configuration.GetSection("logging:switches:switch").GetChildren().Select(c => new FileLogSwitch(c.Key, Enum.Parse<LogLevel>(c.Value)));
+			options.FilePath = this.configuration.GetValue<string>("logging:path");
+		});
+	});
 }
+
 ```
 
 ## Add this to your config file
