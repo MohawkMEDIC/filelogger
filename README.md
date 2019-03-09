@@ -2,7 +2,9 @@
 Represents a .NET Standard 2.0 rolling file logger implementation
 
 # Installation
+```cmd
 Install-Package FileLogger -Version 1.0.0
+```
 
 # Configuration
 
