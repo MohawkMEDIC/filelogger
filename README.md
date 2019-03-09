@@ -11,28 +11,26 @@ Install-Package FileLogger -Version 1.0.0
 ## Add this to your Program.cs file
 ```C#
 
-private string workingDirectory = null;
-
 public static async Task Main(string[] args)
 {
-  workingDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-  Directory.SetCurrentDirectory(workingDirectory);
+	workingDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+	Directory.SetCurrentDirectory(workingDirectory);
 }
-    
+
 private static IWebHostBuilder CreateWebHostBuilder(string[] args)
 {
-    var configurationBuilder = new ConfigurationBuilder();
+	var configurationBuilder = new ConfigurationBuilder();
 
-    configurationBuilder.SetBasePath(workingDirectory);
-    configurationBuilder.AddXmlFile($"{workingDirectory}\\app.config", false, true);
+	configurationBuilder.SetBasePath(workingDirectory);
+	configurationBuilder.AddXmlFile($"{workingDirectory}\\app.config", false, true);
 
-    var configuration = configurationBuilder.Build();
+	var configuration = configurationBuilder.Build();
 
-    var builder = WebHost.CreateDefaultBuilder(args)
-      .UseConfiguration(configuration)
-      .UseStartup<Startup>();
+	var builder = WebHost.CreateDefaultBuilder(args)
+						.UseConfiguration(configuration)
+						.UseStartup<Startup>();
 
-    return builder;
+	return builder;
 }
 ```
 
