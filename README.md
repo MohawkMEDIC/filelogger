@@ -1,7 +1,10 @@
 # filelogger
 Represents a .NET Standard 2.0 rolling file logger implementation
 
-# How to use
+# Installation
+Install-Package FileLogger -Version 1.0.0
+
+# Configuration
 
 ## Add this to your Program.cs file
 ```C#
