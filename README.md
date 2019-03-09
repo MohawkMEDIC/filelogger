@@ -19,16 +19,13 @@ public static async Task Main(string[] args)
 
 private static IWebHostBuilder CreateWebHostBuilder(string[] args)
 {
-	var configurationBuilder = new ConfigurationBuilder();
-
-	configurationBuilder.SetBasePath(workingDirectory);
-	configurationBuilder.AddXmlFile($"{workingDirectory}\\app.config", false, true);
-
-	var configuration = configurationBuilder.Build();
-
 	var builder = WebHost.CreateDefaultBuilder(args)
-						.UseConfiguration(configuration)
-						.UseStartup<Startup>();
+		.UseStartup<Startup>()
+		.ConfigureAppConfiguration((context, config) =>
+		{
+			config.SetBasePath(workingDirectory);
+			config.AddXmlFile(Path.Combine(workingDirectory, "app.config"), false, true);
+		});
 
 	return builder;
 }
