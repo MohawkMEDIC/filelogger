@@ -9,9 +9,12 @@
     <RepositoryType>git</RepositoryType>
     <Authors>nityan</Authors>
     <Company>Mohawk College of Applied Arts and Technology</Company>
-    <Version>1.0.0.0</Version>
+    <Version>1.0.0.1</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageLicenseUrl>https://github.com/MohawkMEDIC/filelogger</PackageLicenseUrl>
+    <PackageIconUrl>https://avatars1.githubusercontent.com/u/26844884?s=200&amp;v=4</PackageIconUrl>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <FileVersion>1.0.0.1</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
